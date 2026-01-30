@@ -498,14 +498,36 @@ body {
 }
 
 .footer-container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 30px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  height: 350px;
+}
+
+.footer-left,
+.footer-info,
+.footer-center {
+  flex: 1;
+}
+
+.footer-info {
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer-info h4 {
+  margin-bottom: 10px;
+}
+
+.footer-info a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-info a:hover {
+  text-decoration: underline;
 }
 
 .footer-center {

@@ -1,8 +1,7 @@
 .container-microweb {
-    padding: 20px;
+    padding: 10px calc((100% - 1200px) / 2);
     display: flex;
     gap: 5px;
-    min-height: 100vh;
     align-items: flex-start;
 }
 
@@ -295,7 +294,7 @@
 }
 
 .bener {
-    padding: 20px;
+    padding: 10px calc((100% - 1200px) / 2);
     margin-top: 10px;
 }
 
@@ -401,7 +400,8 @@
 }
 
 .img-terbaru-teknokrat {
-    width: 50%;
+    width: 100px;
+    height: 100px;
     display: block;
     object-fit: cover;
 }
@@ -420,7 +420,7 @@
 }
 
 .slider-microweb {
-    padding: 20px;
+    padding: 10px calc((100% - 1200px) / 2);
     margin-bottom: 15px;
 }
 

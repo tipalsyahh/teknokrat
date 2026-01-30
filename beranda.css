@@ -1,0 +1,257 @@
+.container-beranda {
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.berita-beranda {
+    padding: 10px;
+    width: 70%;
+}
+
+.berita-left {
+    width: 50%;
+    padding: 10px;
+    position: sticky;
+    top: 10px;
+}
+
+.olahraga,
+.humaniora,
+.hiburan {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.olahraga a,
+.humaniora a,
+.hiburan a {
+    text-decoration: none;
+    text-align: center;
+    color: #000;
+}
+
+.img-olahraga {
+    width: 100%;
+    object-fit: contain;
+}
+
+.judul {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.tanggal {
+    font-size: 12px;
+}
+
+.hukum a,
+.opini a,
+.teknologi a {
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.hukum a p,
+.opini a p,
+.teknologi a p {
+    margin-bottom: 8px;
+}
+
+.hukum a p i,
+.opini a p i,
+.teknologi a p i {
+    border: none;
+    margin-right: 8px;
+}
+
+.card-link {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+}
+
+.card-image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+/* Overlay teks */
+.card-text-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.7),
+            rgba(0, 0, 0, 0));
+}
+
+.card-text {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Efek hover */
+.card-link:hover .card-image {
+    transform: scale(1.05);
+}
+
+.lampung {
+    padding: 10px calc((100% - 1200px) / 2);
+    margin-bottom: 25px;
+}
+
+.berita-terpopuler {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+/* Card */
+.berita-terpopuler .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.berita-terpopuler .card-image-wrapper {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.berita-terpopuler .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+/* Overlay */
+.berita-terpopuler .card-text-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.7),
+            rgba(0, 0, 0, 0));
+}
+
+.berita-terpopuler .card-category {
+    font-size: 12px;
+    font-weight: 600;
+    color: #DC0000;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.berita-terpopuler .card-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.4;
+}
+
+.berita-terpopuler .card-meta {
+    font-size: 12px;
+    color: #ddd;
+    margin-top: 6px;
+}
+
+/* Hover */
+.berita-terpopuler .card-link:hover .card-image {
+    transform: scale(1.06);
+}
+
+.ekonomi a {
+    margin-bottom: 15px;
+}
+
+.editor {
+    font-size: 12px;
+    color: #45b4f5;
+}
+
+.populer-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .container-beranda {
+        padding: 15px 10px;
+    }
+
+    .berita-left {
+        display: none;
+    }
+
+    .berita-beranda {
+        padding: 0;
+        width: 100%;
+        border: none;
+    }
+
+    .lampung {
+        padding: 10px;
+        margin: 0;
+    }
+
+    .berita-terpopuler {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 10px;
+    }
+
+    .berita-terpopuler::-webkit-scrollbar {
+        display: none;
+    }
+
+    .berita-terpopuler>* {
+        flex: 0 0 100%;
+        scroll-snap-align: start;
+    }
+
+    .berita-terpopuler a {
+        margin-bottom: 15px;
+    }
+
+    .card-meta span {
+        font-size: 14px;
+    }
+
+    .card-image-wrapper {
+        width: 90%;
+        box-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.527),
+            0 8px 20px rgba(0, 0, 0, 0.521);
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10px;
+    }
+
+    .populer-mobile {
+        display: block;
+        padding: 10px;
+    }
+
+}

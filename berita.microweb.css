@@ -1,0 +1,97 @@
+.container {
+  padding: 10px calc(10%);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* KONTEN UTAMA */
+.berita {
+  flex: 0 0 70%; /* grow | shrink | basis */
+}
+
+/* SIDEBAR / IKLAN */
+.iklan-detail {
+  flex: 0 0 30%;
+  position: sticky;
+  top: 10px;
+}
+
+.berita-detail {
+    width: 100%;
+}
+
+.item-microweb {
+    gap: 10px;
+}
+
+.img-terbaru-detail {
+    width: 100px;
+    height: 100px;
+    display: block;
+    object-fit: cover;
+}
+
+.berita a {
+    text-decoration: none;
+    color: #DC0000;
+}
+
+.judul-berita {
+    color: #333;
+}
+
+.gambar-berita {
+    width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
+.img-microweb-terbaru {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.tanggal-berita {
+    font-size: 12px;
+    color: #777;
+}
+
+.isi-berita {
+    text-align: justify;
+}
+
+.baca-selengkapnya {
+    color: #DC0000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.voice-btn {
+    font-size: 20px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    color: #333;
+}
+
+.editor {
+    font-size: 12px;
+    color: #45b4f5;
+}
+
+@media (max-width: 768px) {
+    .container {
+        display: block;
+        padding: 10px;
+    }
+
+    .berita {
+        border: none;
+        padding: 0;
+        width: 100%;
+    }
+
+}

@@ -1,5 +1,5 @@
 .container {
-  padding: 10px calc(10%);
+  padding: 10px calc((100% - 1200px) / 2);
   display: flex;
   gap: 20px;
   align-items: flex-start;

@@ -8,70 +8,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="microweb.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="beranda.css">
+    <link rel="stylesheet" href="microweb.css">
+    <link rel="stylesheet" href="beranda-overal.css">
     <link rel="icon" href="image/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>Lampost</title>
 </head>
 
 <body>
-    <div class="logo">
-        <center><img src="image/lampost300.png (1).webp" alt="image" class="img-header"></center>
-    </div>
-    <div class="news fade-in">
-        <div class="news-ticker">
-            <span class="ticker-label">TRENDING NOW</span>
-            <div class="ticker-content">
-                <a href="#" class="ticker-text" id="tickerText">
-                    Memuat berita...
-                </a>
-            </div>
-        </div>
-        <div class="search-beranda" id="searchBeranda">
-            <input type="text" class="search-input" placeholder="Cari Artikel Disini.." />
-            <button type="button" class="search-btn">
-                <i class="bi bi-search"></i>
-            </button>
-        </div>
-
-    </div>
-    <div class="slider-microweb">
-        <div class="hero-slider">
-            <div class="hero-track"></div>
-            <div class="hero-dots"></div>
-        </div>
-    </div>
-    <div class="bener">
-        <img src="image/banner-tekno.gif" alt="img" class="gif-tekno">
-    </div>
     <div class="container-microweb">
         <div class="berita-microweb">
-            <h2>BERITA TERKINI</h2>
+            <h2 class="search-title"></h2>
             <div class="line-accent"></div>
-            <div class="berita-terbaru">
-
-            </div>
-            <div class="home">
-
-            </div>
-            <center><button id="loadMore" class="load-more">LOAD MORE</button></center>
-            <div class="iklan-microweb">
-                <a href="#">
-                    <img src="image/PENERIMAAN-TEKNOKRAT.jpg" alt="image" class="img-iklan-microweb">
-                </a>
-            </div>
-            <div class="Pendidikan">
-
-            </div>
+            <div class="home" id="search-results"></div>
         </div>
         <div class="iklan-parent">
             <h2>KORAN DIGITAL</h2>
             <div class="line-accent"></div>
             <div class="tagar">
-                <a href="#">
-                    <img src="image/epaper-tekno.jpg" alt="img" class="epaper-image" id="epeper-microweb">
+                <a href="harian.html">
+                    <img src="image/showcase-350pxl2.gif" alt="img" class="epaper-image" id="epeper-microweb">
                 </a>
             </div>
             <h2>BERITA TERKINI</h2>
@@ -124,17 +82,12 @@
             <small>© 2026 Lampost.co - Media Group. All rights reserved.</small>
         </div>
     </footer>
-
-
-    <script src="teknokrat/teknokrat.js"></script>
-    <script src="teknokrat/teknokrat.pendidikan.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/beranda/search-beranda.js"></script>
     <script src="js/scrip.js"></script>
-    <script src="js/treding.js"></script>
-    <script src="js/search-beranda.js"></script>
     <script src="js/navbar.js"></script>
-    <script src="teknokrat/terbaru.js"></script>
-    <script src="teknokrat/slider.js"></script>
-    <script src="js/keyfrem.js"></script>
+    <script src="keyfrem.js"></script>
+    <script src="js/terbaru.berita.js"></script>
 </body>
 
 </html>

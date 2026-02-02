@@ -1,13 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-  /* ===============================
-     FUNGSI UMUM SEARCH
-  =============================== */
-  function bindSearch(container) {
+function bindSearch(container) {
     if (!container) return;
 
     const input = container.querySelector('.search-input');
-    const btn = container.querySelector('.search-btn'); // boleh null
+    const btn = container.querySelector('.search-btn');
 
     function goSearch() {
       const q = input.value;
@@ -34,15 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
-  /* ===============================
-     SEARCH BERANDA
-  =============================== */
   bindSearch(document.getElementById('searchBeranda'));
-
-  /* ===============================
-     SEARCH SIDEBAR
-  =============================== */
   bindSearch(document.getElementById('searchSidebar'));
 
 });

@@ -294,7 +294,7 @@
 }
 
 .bener {
-    padding: 10px calc((100% - 1200px) / 2);
+    padding: 10px calc((100% - 1100px) / 2);
     margin-top: 10px;
 }
 
@@ -507,6 +507,89 @@
     background: #fff;
 }
 
+.img-header {
+  margin: 50px 0;
+}
+
+.news {
+  padding: 10px calc((100% - 1200px) / 2);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.news-ticker {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: #000;
+  font-size: 13px;
+  overflow: hidden;
+  width: 65%;
+}
+
+.ticker-label {
+  color: #fff;
+  padding: 10px;
+  background: #DC0000;
+  font-weight: bold;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.ticker-content {
+  overflow: hidden;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.ticker-text {
+  display: inline-block;
+  animation: slideIn 0.5s ease;
+}
+
+.ticker-content a {
+  text-decoration: none;
+  color: #080808;
+  font-weight: bold;
+}
+
+.search-beranda {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  flex: 1;
+  background: #fff;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 8px 10px;
+  font-size: 13px;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-btn {
+  border: none;
+  background: transparent;
+  padding: 0 10px;
+  cursor: pointer;
+  color: #555;
+  font-size: 16px;
+}
+
+.search-btn:hover {
+  color: #000;
+}
+
 @media (max-width: 768px) {
     .container-microweb {
         padding: 10px;
@@ -522,6 +605,25 @@
     .berita-microweb {
         width: 100%;
         padding: 0;
+    }
+
+    .news-ticker {
+        width: 100%;
+    }
+
+    .search-beranda {
+        display: none;
+    }
+
+    .img-header {
+        margin: 0;
+        width: 160px;
+        height: 35px;
+    }
+
+    .logo {
+        border-bottom: 1px solid #e5e7eb;
+         padding: 10px;
     }
 
     .iklan-parent {

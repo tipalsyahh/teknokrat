@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!ticker || !track) return;
 
   const API =
-    'https://lampost.co/wp-json/wp/v2/posts' +
+    'https://lampost.co/microweb/teknokrat/wp-json/wp/v2/posts' +
     '?orderby=date&order=desc&per_page=5' +
     '&_fields=title,slug,categories';
 
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (catCache[catId]) return catCache[catId];
 
     const res = await fetch(
-      `https://lampost.co/wp-json/wp/v2/categories/${catId}`
+      `https://lampost.co/microweb/teknokrat/wp-json/wp/v2/categories/${catId}`
     );
     const data = await res.json();
 

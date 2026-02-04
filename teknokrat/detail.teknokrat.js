@@ -3,14 +3,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   const berita = document.getElementById('berita');
   if (!berita) return;
 
-  /* ===============================
-     🔥 AMBIL DARI HASH (#/kategori/judul)
-  =============================== */
+  // 🔥 Ambil kategori & slug judul dari URL (PAKAI /)
+  const query = decodeURIComponent(
+    window.location.search.replace('?', '')
+  );
 
-  const hash = location.hash.replace('#/', '');
-  const partsUrl = hash.split('/');
-
-  const kategoriSlug = partsUrl[0] || '';
+  const partsUrl = query.split('/');
+  const kategoriSlug = partsUrl[0];
   const slug = partsUrl[1];
 
   if (!slug) {
@@ -19,7 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-
     const api =
       `https://lampost.co/microweb/teknokrat/wp-json/wp/v2/posts?slug=${slug}&_embed`;
 
@@ -55,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     /* ========================
-       🔁 REDIRECT LINK INTERNAL → HASH
+       🔁 REDIRECT LINK INTERNAL
     ======================== */
     isi.querySelectorAll('a[href]').forEach(link => {
       let href = link.getAttribute('href');
@@ -74,19 +72,28 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!url.hostname.includes('lampost.co')) return;
 
+        // 🔎 SEARCH
+        const search = url.searchParams.get('s');
+        if (search) {
+          link.href = `search.html?q=${encodeURIComponent(search)}`;
+          link.target = '_self';
+          return;
+        }
+
         const parts = url.pathname.split('/').filter(Boolean);
         const slugBerita = parts.at(-1);
 
         if (slugBerita) {
-          link.href = `#/` + kategoriSlug + '/' + slugBerita;
+          // 🔥 PAKAI / (BUKAN |)
+          link.href = `berita.teknokrat.html?${kategoriSlug}/${slugBerita}`;
           link.target = '_self';
         } else {
-          link.href = '#/';
+          link.href = 'index.html';
           link.target = '_self';
         }
 
       } catch {
-        link.href = '#/';
+        link.href = 'index.html';
         link.target = '_self';
       }
     });
@@ -151,9 +158,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         kategoriSlug ||
         'Berita';
     }
-
-    // auto scroll ke atas saat buka berita
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 
   } catch (err) {
     console.error(err);

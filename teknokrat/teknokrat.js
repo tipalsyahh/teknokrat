@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         `?per_page=${PER_PAGE}&page=${page}&orderby=date&order=desc&_embed`;
 
       const res = await fetch(api);
-
       if (!res.ok) {
         if (res.status === 400) {
           hasMore = false;
@@ -52,8 +51,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const kategoriSlug =
           post._embedded?.['wp:term']?.[0]?.[0]?.slug || 'teknokrat';
 
-        /* 🔥 LINK → HASH ROUTING */
-        const link = `#/` + kategoriSlug + '/' + slug;
+        /* 🔗 LINK */
+        const link = `berita.teknokrat.html?${kategoriSlug}/${slug}`;
 
         let deskripsi =
           post.excerpt?.rendered
@@ -69,7 +68,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           || 'image/ai.jpg';
 
         /* =========================
-           📅 TANGGAL → DD/MM/YYYY
+           📅 TANGGAL → ANGKA
+           FORMAT: DD/MM/YYYY
         ========================= */
         const d = new Date(post.date);
         const day = String(d.getDate()).padStart(2, '0');

@@ -43,38 +43,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         const judul = post.title.rendered;
         const slug = post.slug;
 
+        /* 🏷️ KATEGORI */
         const kategori =
           post._embedded?.['wp:term']?.[0]?.[0]?.name || 'Teknokrat';
 
+        /* 🏷️ KATEGORI SLUG */
         const kategoriSlug =
           post._embedded?.['wp:term']?.[0]?.[0]?.slug || 'teknokrat';
 
-        /* LINK KLIK */
-        const realLink = `berita.teknokrat.html?${kategoriSlug}/${slug}`;
-
-        /* LINK HOVER */
-        const fakeLink = `https://lampost.co/teknokrat/${kategoriSlug}/${slug}`;
+        /* 🔗 LINK */
+        const link = `berita.teknokrat.html?${kategoriSlug}/${slug}`;
 
         let deskripsi =
-          post.excerpt?.rendered?.replace(/<[^>]+>/g,'')?.trim() || '';
+          post.excerpt?.rendered
+            ?.replace(/<[^>]+>/g, '')
+            ?.trim() || '';
 
-        if (deskripsi.length > 150) deskripsi = deskripsi.slice(0,150)+'...';
+        if (deskripsi.length > 150) {
+          deskripsi = deskripsi.slice(0, 150) + '...';
+        }
 
         const gambar =
-          post._embedded?.['wp:featuredmedia']?.[0]?.source_url || 'image/ai.jpg';
+          post._embedded?.['wp:featuredmedia']?.[0]?.source_url
+          || 'image/ai.jpg';
 
+        /* =========================
+           📅 TANGGAL → ANGKA
+           FORMAT: DD/MM/YYYY
+        ========================= */
         const d = new Date(post.date);
-        const tanggal =
-          String(d.getDate()).padStart(2,'0')+'/'+
-          String(d.getMonth()+1).padStart(2,'0')+'/'+
-          d.getFullYear();
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        const tanggal = `${day}/${month}/${year}`;
 
         const editor =
           post._embedded?.author?.[0]?.name || 'Redaksi';
 
         output += `
-          <a href="${fakeLink}" data-real="${realLink}" class="item-info">
-            <img src="${gambar}" class="img-microweb" loading="lazy">
+          <a href="${link}" class="item-info">
+            <img src="${gambar}" alt="${judul}" class="img-microweb" loading="lazy">
             <div class="berita-microweb">
               <p class="judul">${judul}</p>
               <p class="kategori">${kategori}</p>
@@ -89,15 +97,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
 
       container.insertAdjacentHTML('beforeend', output);
-
-      /* OVERRIDE KLIK */
-      document.querySelectorAll('.item-info').forEach(a=>{
-        a.addEventListener('click',e=>{
-          e.preventDefault();
-          window.location.href = a.dataset.real;
-        });
-      });
-
       page++;
 
     } catch (err) {
@@ -107,7 +106,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  /* LOAD AWAL */
   loadPosts();
+
+  /* LOAD MORE */
   loadMoreBtn.addEventListener('click', loadPosts);
 
 });

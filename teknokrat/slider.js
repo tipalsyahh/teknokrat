@@ -19,25 +19,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const judul = post.title.rendered;
 
+      /* 🏷️ KATEGORI */
       const kategoriNama =
         post._embedded?.['wp:term']?.[0]?.[0]?.name || 'Berita';
 
       const kategoriSlug =
         post._embedded?.['wp:term']?.[0]?.[0]?.slug || 'berita';
 
-      /* REAL LINK (KLIK) */
-      const realLink = `berita.teknokrat.html?${kategoriSlug}/${post.slug}`;
+      /* 🔗 LINK */
+      const link = `berita.teknokrat.html?${kategoriSlug}/${post.slug}`;
 
-      /* FAKE LINK (HOVER) */
-      const fakeLink = `https://lampost.co/teknokrat/${kategoriSlug}/${post.slug}`;
-
+      /* ✍️ EDITOR — DISAMAKAN DENGAN SCRIPT HOME */
       const editor =
         post._embedded?.author?.[0]?.name || 'Redaksi';
 
+      /* 🖼️ GAMBAR */
       const gambar =
         post._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
         'image/ai.jpg';
 
+      /* ⏰ WAKTU */
       const selisihJam = Math.floor(
         (Date.now() - new Date(post.date)) / 3600000
       );
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       slidesHTML += `
         <div class="hero-slide">
-          <a href="${fakeLink}" data-real="${realLink}" class="hero-link">
+          <a href="${link}" class="hero-link">
             <div class="hero-image-box">
               <img 
                 src="${gambar}" 
@@ -81,14 +82,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     track.innerHTML = slidesHTML;
     dotsWrap.innerHTML = dotsHTML;
-
-    /* OVERRIDE KLIK HERO */
-    document.querySelectorAll('.hero-link').forEach(a=>{
-      a.addEventListener('click',e=>{
-        e.preventDefault();
-        location.href = a.dataset.real;
-      });
-    });
 
     /* =========================
        SLIDER LOGIC

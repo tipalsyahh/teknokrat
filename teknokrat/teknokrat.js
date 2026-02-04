@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const kategoriSlug =
           post._embedded?.['wp:term']?.[0]?.[0]?.slug || 'teknokrat';
 
-        /* 🔗 LINK */
-        const link = `berita.teknokrat.html?${kategoriSlug}/${slug}`;
+        /* 🔗 LINK (URL tampil saat hover) */
+        const link = `https://lampost.co/teknokrat/${kategoriSlug}/${slug}`;
 
         let deskripsi =
           post.excerpt?.rendered

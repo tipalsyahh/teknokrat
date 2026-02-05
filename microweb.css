@@ -257,7 +257,7 @@
     }
 }
 
-.judul {
+.judul p{
     color: #000;
     font-weight: bold;
     font-size: 18px;
@@ -266,7 +266,6 @@
 
 .info-microweb {
     display: flex;
-    align-items: center;
     gap: 5px;
 }
 
@@ -350,7 +349,7 @@
     height: 150px;
 }
 
-.judul-terbaru {
+.judul-terbaru p {
     font-size: 15px;
     color: #000;
     margin: 0 0 10px 0;

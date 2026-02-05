@@ -3,21 +3,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   const berita = document.getElementById('berita');
   if (!berita) return;
 
-  // 🔥 Ambil kategori & slug judul dari URL (PAKAI /)
-  const query = decodeURIComponent(
-    window.location.search.replace('?', '')
-  );
+  // 🔥 ambil slug dari ?slug=
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug');
 
-  const partsUrl = query.split('/');
-  const kategoriSlug = partsUrl[0];
-  const slug = partsUrl[1];
-
-  if (!slug) {
-    berita.innerHTML = '<p>Berita tidak ditemukan</p>';
-    return;
-  }
+  if (!slug) return;
 
   try {
+
     const api =
       `https://lampost.co/microweb/teknokrat/wp-json/wp/v2/posts?slug=${slug}&_embed`;
 
@@ -29,139 +22,84 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const post = posts[0];
 
-    /* ========================
-       📝 JUDUL
-    ======================== */
-    const judul = document.querySelector('.judul-berita');
-    if (judul) judul.innerHTML = post.title.rendered;
+    /* ===== TAMPILKAN DETAIL ===== */
 
-    /* ========================
-       📰 ISI BERITA
-    ======================== */
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("detailPage").style.display = "block";
+
+    /* ================= JUDUL ================= */
+
+    document.querySelector('.judul-berita').innerHTML = post.title.rendered;
+
+    /* ================= ISI ================= */
+
     const isi = document.querySelector('.isi-berita');
     isi.innerHTML = post.content.rendered;
 
-    /* ========================
-       🧹 HAPUS <p>&nbsp;</p>
-    ======================== */
     isi.querySelectorAll('p').forEach(p => {
-      const bersih = p.innerHTML
-        .replace(/&nbsp;/gi, '')
-        .replace(/\s+/g, '')
-        .trim();
-      if (!bersih) p.remove();
+      if (!p.textContent.trim()) p.remove();
     });
 
-    /* ========================
-       🔁 REDIRECT LINK INTERNAL
-    ======================== */
+    /* ================= REDIRECT LINK ================= */
+
     isi.querySelectorAll('a[href]').forEach(link => {
-      let href = link.getAttribute('href');
+
+      const href = link.getAttribute('href');
       if (!href) return;
 
-      if (
-        href.startsWith('#') ||
-        href.startsWith('mailto:') ||
-        href.startsWith('tel:')
-      ) return;
-
       try {
+
         const url = href.startsWith('http')
           ? new URL(href)
           : new URL(href, 'https://lampost.co');
 
-        if (!url.hostname.includes('lampost.co')) return;
-
-        // 🔎 SEARCH
-        const search = url.searchParams.get('s');
-        if (search) {
-          link.href = `search.html?q=${encodeURIComponent(search)}`;
-          link.target = '_self';
-          return;
-        }
-
-        const parts = url.pathname.split('/').filter(Boolean);
-        const slugBerita = parts.at(-1);
+        const slugBerita = url.pathname.split('/').filter(Boolean).at(-1);
 
         if (slugBerita) {
-          // 🔥 PAKAI / (BUKAN |)
-          link.href = `berita.teknokrat.html?${kategoriSlug}/${slugBerita}`;
-          link.target = '_self';
-        } else {
-          link.href = 'index.html';
+          link.href = `/?slug=${slugBerita}`;
           link.target = '_self';
         }
 
-      } catch {
-        link.href = 'index.html';
-        link.target = '_self';
-      }
+      } catch { }
+
     });
 
-    /* ========================
-       🖼️ IMG RESPONSIVE
-    ======================== */
-    isi.querySelectorAll('img').forEach(img => {
-      img.removeAttribute('width');
-      img.removeAttribute('height');
-      img.style.maxWidth = '100%';
-      img.style.width = '100%';
-      img.style.height = 'auto';
-      img.style.display = 'block';
-    });
+    /* ================= GAMBAR ================= */
 
-    /* ========================
-       🖼️ GAMBAR UTAMA
-    ======================== */
     const gambar = document.querySelector('.gambar-berita');
-    if (gambar) {
-      gambar.src =
-        post._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
-        'image/default.jpg';
 
-      gambar.style.maxWidth = '100%';
-      gambar.style.width = '100%';
-      gambar.style.height = 'auto';
-    }
+    gambar.src =
+      post._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
+      'https://via.placeholder.com/800x400';
 
-    /* ========================
-       📅 TANGGAL
-    ======================== */
-    const tanggal = document.getElementById('tanggal');
-    if (tanggal) {
-      tanggal.innerText =
-        new Date(post.date).toLocaleDateString('id-ID', {
-          weekday: 'long',
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        });
-    }
+    gambar.style.width = "100%";
 
-    /* ========================
-       ✍️ EDITOR
-    ======================== */
-    const editor = document.getElementById('editor');
-    if (editor) {
-      editor.innerText =
-        post._embedded?.author?.[0]?.name ||
-        'Redaksi';
-    }
+    isi.querySelectorAll('img').forEach(img => {
+      img.style.width = "100%";
+      img.removeAttribute("height");
+      img.removeAttribute("width");
+    });
 
-    /* ========================
-       🏷️ KATEGORI
-    ======================== */
-    const kategoriEl = document.getElementById('kategori');
-    if (kategoriEl) {
-      kategoriEl.innerText =
-        post._embedded?.['wp:term']?.[0]?.[0]?.name ||
-        kategoriSlug ||
-        'Berita';
-    }
+    /* ================= TANGGAL ================= */
+
+    document.getElementById('tanggal').innerText =
+      new Date(post.date).toLocaleDateString('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+
+    /* ================= EDITOR ================= */
+
+    document.getElementById('editor').innerText =
+      post._embedded?.author?.[0]?.name || 'Redaksi';
 
   } catch (err) {
+
     console.error(err);
     berita.innerHTML = '<p>Gagal memuat berita</p>';
+
   }
 
 });

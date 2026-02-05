@@ -257,7 +257,7 @@
     }
 }
 
-.judul p{
+.judul {
     color: #000;
     font-weight: bold;
     font-size: 18px;
@@ -349,7 +349,7 @@
     height: 150px;
 }
 
-.judul-terbaru p {
+.judul-terbaru {
     font-size: 15px;
     color: #000;
     margin: 0 0 10px 0;

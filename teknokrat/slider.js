@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
 /* =====================================================
+   CONFIG
+===================================================== */
+
+const API_BASE = "https://lampost.co/microweb/teknokrat/wp-json/wp/v2/posts";
+
+/* =====================================================
    SLIDER HOMEPAGE
 ===================================================== */
 
@@ -11,11 +17,8 @@ if (track && dotsWrap) {
 
   try {
 
-    const res = await fetch(
-      'https://lampost.co/microweb/teknokrat/wp-json/wp/v2/posts?per_page=5&orderby=date&order=desc&_embed'
-    );
-
-    if (!res.ok) throw new Error('Gagal ambil data');
+    const res = await fetch(`${API_BASE}?per_page=5&orderby=date&order=desc&_embed`);
+    if (!res.ok) throw new Error('Gagal ambil slider');
 
     const posts = await res.json();
 
@@ -25,7 +28,6 @@ if (track && dotsWrap) {
     posts.forEach((post, i) => {
 
       const judul = post.title.rendered;
-
       const kategoriNama =
         post._embedded?.['wp:term']?.[0]?.[0]?.name || 'Berita';
 
@@ -45,7 +47,7 @@ if (track && dotsWrap) {
           ? `${selisihJam} jam yang lalu`
           : `${Math.floor(selisihJam / 24)} hari yang lalu`;
 
-      /* 🔥 LINK SESUAI DETAIL */
+      /* LINK KE DETAIL */
       const link = `/?slug=${post.slug}`;
 
       slidesHTML += `
@@ -68,10 +70,7 @@ if (track && dotsWrap) {
         </div>
       `;
 
-      dotsHTML += `
-        <span class="hero-dot ${i === 0 ? 'active' : ''}" data-i="${i}"></span>
-      `;
-
+      dotsHTML += `<span class="hero-dot ${i===0?'active':''}" data-i="${i}"></span>`;
     });
 
     track.innerHTML = slidesHTML;
@@ -82,25 +81,21 @@ if (track && dotsWrap) {
     const dots = document.querySelectorAll('.hero-dot');
     const total = slides.length;
 
-    function goSlide(i) {
-      track.style.transform = `translateX(-${i * 100}%)`;
-      dots.forEach(d => d.classList.remove('active'));
+    function goSlide(i){
+      track.style.transform = `translateX(-${i*100}%)`;
+      dots.forEach(d=>d.classList.remove('active'));
       dots[i].classList.add('active');
-      index = i;
+      index=i;
     }
 
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        goSlide(Number(dot.dataset.i));
-      });
+    dots.forEach(dot=>{
+      dot.addEventListener('click',()=>goSlide(Number(dot.dataset.i)));
     });
 
-    setInterval(() => {
-      goSlide((index + 1) % total);
-    }, 5000);
+    setInterval(()=>goSlide((index+1)%total),5000);
 
-  } catch (err) {
-    console.error(err);
+  } catch (e) {
+    console.error(e);
   }
 }
 
@@ -115,13 +110,12 @@ if (berita && slug) {
 
   try {
 
-    document.getElementById("homePage").style.display = "none";
-    document.getElementById("detailPage").style.display = "block";
+    document.getElementById("homePage").style.display="none";
+    document.getElementById("detailPage").style.display="block";
 
-    const api =
-      `https://lampost.co/microweb/teknokrat/wp-json/wp/v2/posts?slug=${slug}&_embed`;
+    const res = await fetch(`${API_BASE}?slug=${slug}&_embed`);
+    if(!res.ok) throw new Error("detail gagal");
 
-    const res = await fetch(api);
     const posts = await res.json();
     const post = posts[0];
 
@@ -130,37 +124,33 @@ if (berita && slug) {
     const isi = document.querySelector('.isi-berita');
     isi.innerHTML = post.content.rendered;
 
-    isi.querySelectorAll('p').forEach(p => {
-      if (!p.textContent.trim()) p.remove();
+    isi.querySelectorAll('p').forEach(p=>{
+      if(!p.textContent.trim())p.remove();
     });
 
-    isi.querySelectorAll('a[href]').forEach(a => {
-      try {
-        const u = new URL(a.href);
-        const s = u.pathname.split('/').filter(Boolean).at(-1);
-        if (s) a.href = '/?slug=' + s;
-      } catch {}
+    isi.querySelectorAll('a[href]').forEach(a=>{
+      try{
+        const u=new URL(a.href);
+        const s=u.pathname.split('/').filter(Boolean).at(-1);
+        if(s)a.href='/?slug='+s;
+      }catch{}
     });
 
-    const gambar = document.querySelector('.gambar-berita');
-    gambar.src =
+    document.querySelector('.gambar-berita').src =
       post._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
       'https://via.placeholder.com/800x400';
 
     document.getElementById('tanggal').innerText =
-      new Date(post.date).toLocaleDateString('id-ID', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
+      new Date(post.date).toLocaleDateString('id-ID',{
+        weekday:'long',day:'numeric',month:'long',year:'numeric'
       });
 
     document.getElementById('editor').innerText =
       post._embedded?.author?.[0]?.name || 'Redaksi';
 
-  } catch (e) {
+  } catch(err) {
 
-    berita.innerHTML = "<p>Gagal memuat berita</p>";
+    berita.innerHTML="<p>Gagal memuat berita</p>";
 
   }
 }

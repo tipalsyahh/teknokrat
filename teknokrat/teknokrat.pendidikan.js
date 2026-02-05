@@ -1,109 +1,90 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
-  const container = document.querySelector('.Pendidikan');
-  if (!container) return;
+const container = document.querySelector('.Pendidikan');
+if (!container) return;
 
-  try {
-    /* ========================
-       1️⃣ AMBIL ID KATEGORI PENDIDIKAN
-    ======================== */
-    const catRes = await fetch(
-      'https://lampost.co/microweb/teknokrat/wp-json/wp/v2/categories?slug=akademik'
-    );
-    if (!catRes.ok) throw new Error('Gagal ambil kategori');
+const API_POST = "https://lampost.co/microweb/teknokrat/wp-json/wp/v2/posts";
+const API_CAT  = "https://lampost.co/microweb/teknokrat/wp-json/wp/v2/categories";
 
-    const catData = await catRes.json();
-    if (!catData.length) throw new Error('Kategori pendidikan tidak ditemukan');
+try {
 
-    const kategoriId = catData[0].id;
+  /* =====================================================
+     AMBIL ID KATEGORI "akademik"
+  ===================================================== */
 
-    /* ========================
-       2️⃣ AMBIL POST BERDASARKAN KATEGORI
-    ======================== */
-    const api =
-      'https://lampost.co/microweb/teknokrat/wp-json/wp/v2/posts' +
-      `?categories=${kategoriId}&per_page=13&orderby=date&order=desc&_embed`;
+  const catRes = await fetch(`${API_CAT}?slug=akademik`);
+  if (!catRes.ok) throw new Error('Kategori gagal');
 
-    const res = await fetch(api);
-    if (!res.ok) throw new Error('Gagal mengambil API');
+  const catData = await catRes.json();
+  if (!catData.length) throw new Error('Kategori tidak ada');
 
-    const posts = await res.json();
-    let output = '';
+  const kategoriId = catData[0].id;
 
-    posts.forEach(post => {
+  /* =====================================================
+     AMBIL POST BERDASARKAN KATEGORI
+  ===================================================== */
 
-      /* 📝 JUDUL */
-      const judul = post.title.rendered;
+  const res = await fetch(
+    `${API_POST}?categories=${kategoriId}&per_page=13&orderby=date&order=desc&_embed`
+  );
 
-      /* 🔤 SLUG JUDUL */
-      const slug = post.slug;
+  if (!res.ok) throw new Error('Post gagal');
 
-      /* 🏷️ KATEGORI */
-      const category =
-        post._embedded?.['wp:term']?.[0]?.[0]?.name || 'Pendidikan';
+  const posts = await res.json();
+  let output = '';
 
-      /* 🏷️ SLUG KATEGORI */
-      const categorySlug =
-        post._embedded?.['wp:term']?.[0]?.[0]?.slug || 'pendidikan';
+  posts.forEach(post => {
 
-      /* 🔗 LINK DETAIL */
-      const link = `berita.teknokrat.html?${categorySlug}/${slug}`;
+    const judul = post.title.rendered;
 
-      /* 📰 DESKRIPSI */
-      let deskripsi =
-        post.excerpt?.rendered
-          ?.replace(/<[^>]+>/g, '')
-          ?.trim() || '';
+    const kategori =
+      post._embedded?.['wp:term']?.[0]?.[0]?.name || 'Pendidikan';
 
-      if (deskripsi.length > 150) {
-        deskripsi = deskripsi.slice(0, 150) + '...';
-      }
+    const editor =
+      post._embedded?.author?.[0]?.name || 'Redaksi';
 
-      /* 🖼️ GAMBAR */
-      const gambar =
-        post._embedded?.['wp:featuredmedia']?.[0]?.source_url
-        || 'image/ai.jpg';
+    const gambar =
+      post._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
+      'https://via.placeholder.com/400x250';
 
-      /* =========================
-         📅 TANGGAL → ANGKA
-         FORMAT: DD/MM/YYYY
-      ========================= */
-      const d = new Date(post.date);
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const year = d.getFullYear();
-      const tanggal = `${day}/${month}/${year}`;
+    let deskripsi =
+      post.excerpt?.rendered?.replace(/<[^>]+>/g,'').trim() || '';
 
-      /* ✍️ EDITOR */
-      const editor =
-        post._embedded?.author?.[0]?.name || 'Redaksi';
+    if(deskripsi.length>150) deskripsi = deskripsi.slice(0,150)+'...';
 
-      /* 🧱 OUTPUT */
-      output += `
-        <a href="${link}" class="item-info">
-          <img src="${gambar}" alt="${judul}" class="img-microweb" loading="lazy">
-
-          <div class="berita-microweb">
-            <p class="judul">${judul}</p>
-            <p class="kategori">${category}</p>
-            <div class="info-microweb">
-              <p class="editor">By ${editor}</p>
-              <p class="tanggal">${tanggal}</p>
-            </div>
-
-            <p class="deskripsi">${deskripsi}</p>
-          </div>
-        </a>
-      `;
+    const tanggal = new Date(post.date).toLocaleDateString('id-ID',{
+      day:'2-digit',month:'2-digit',year:'numeric'
     });
 
-    container.innerHTML =
-      output || '<p>Konten pendidikan tidak tersedia</p>';
+    /* 🔥 LINK WORDPRESS ASLI */
+    const link = post.link;
 
-  } catch (err) {
-    console.error('API gagal dimuat:', err);
-    container.innerHTML =
-      '<p>Konten gagal dimuat</p>';
-  }
+    output += `
+      <a href="${link}" class="item-info">
+        <img src="${gambar}" class="img-microweb" loading="lazy">
+
+        <div class="berita-microweb">
+          <p class="judul">${judul}</p>
+          <p class="kategori">${kategori}</p>
+
+          <div class="info-microweb">
+            <p class="editor">By ${editor}</p>
+            <p class="tanggal">${tanggal}</p>
+          </div>
+
+          <p class="deskripsi">${deskripsi}</p>
+        </div>
+      </a>
+    `;
+  });
+
+  container.innerHTML = output || '<p>Konten pendidikan tidak tersedia</p>';
+
+} catch(err){
+
+  console.error(err);
+  container.innerHTML = '<p>Konten gagal dimuat</p>';
+
+}
 
 });
